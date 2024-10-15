@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
+    <style>
+      /* 自定义动画 */
+      .location {
+        transition: transform 0.3s ease-in-out;
+      }
+      .selected {
+        transform: scale(1.2);
+        background-color: #34d399; /* 绿色背景 */
+        color: white;
+        border-color: #34d399;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center h-screen">
+    <div class="text-center">
+      <h1 class="text-5xl text-white font-bold mb-12">幸运抽奖</h1>
+
+      <!-- 显示地点 -->
+      <div id="locations" class="grid grid-cols-1 gap-4 mb-12">
+        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">地点 1</div>
+        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">地点 2</div>
+        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">地点 3</div>
+        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">地点 4</div>
+        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">地点 5</div>
+      </div>
+
+      <!-- 抽奖按钮 -->
+      <button id="startBtn" class="bg-red-500 text-white font-bold py-4 px-12 rounded-full hover:bg-red-600 transition duration-300">
+        开始抽奖
+      </button>
+
+      <!-- 最终结果 -->
+      <div id="result" class="text-3xl text-green-300 font-bold mt-12 hidden">恭喜！你抽中了：<span id="chosenLocation"></span></div>
+    </div>
+
+    <script>
+      const locations = ['地点 1', '地点 2', '地点 3', '地点 4', '地点 5']
+      const locationElements = document.querySelectorAll('.location')
+      const startBtn = document.getElementById('startBtn')
+      const result = document.getElementById('result')
+      const chosenLocation = document.getElementById('chosenLocation')
+      let interval
+      let spinTimeout
+
+      function startSpinning() {
+        result.classList.add('hidden') // 隐藏结果
+        let index = 0
+        let speed = 100 // 初始速度
+        interval = setInterval(() => {
+          locationElements.forEach((el, i) => {
+            el.classList.remove('selected')
+          })
+          locationElements[index].classList.add('selected')
+          index = (index + 1) % locations.length
+        }, speed)
+        // 渐进式减速
+        spinTimeout = setTimeout(function slowDown() {
+          clearInterval(interval)
+          if (speed < 400) {
+            speed += 50 // 增加时间间隔，减缓速度
+            interval = setInterval(() => {
+              locationElements.forEach((el, i) => {
+                el.classList.remove('selected')
+              })
+              locationElements[index].classList.add('selected')
+              index = (index + 1) % locations.length
+            }, speed)
+            spinTimeout = setTimeout(slowDown, speed * 6) // 继续减速
+          } else {
+            clearInterval(interval) // 停止动画
+            finalSelection() // 选择结果
+          }
+        }, 1500)
+      }
+
+      function finalSelection() {
+        // 你的随机数生成函数
+        const randomIndex = randomNumber(0, locations.length - 1)
+        locationElements.forEach((el, i) => {
+          el.classList.remove('selected')
+          if (i === randomIndex) {
+            el.classList.add('selected')
+          }
+        })
+        chosenLocation.textContent = locations[randomIndex]
+        result.classList.remove('hidden') // 显示结果
+      }
+      startBtn.addEventListener('click', () => {
+        clearTimeout(spinTimeout) // 确保上次的计时结束
+        clearInterval(interval) // 停止当前的动画
+        startSpinning()
+      })
+      const randomNumber = (min, max) => {
+        return Math.floor(min + Math.random() * (max - min + 1))
+      }
+    </script>
+  </body>
+</html>
