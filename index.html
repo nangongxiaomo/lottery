@@ -20,15 +20,13 @@
   </head>
   <body class="bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center h-screen">
     <div class="text-center">
-      <h1 class="text-5xl text-white font-bold mb-12">幸运抽奖</h1>
+      <h1 class="text-5xl text-white font-bold mb-12">选择困难症</h1>
 
       <!-- 显示地点 -->
       <div id="locations" class="grid grid-cols-1 gap-4 mb-12">
-        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">地点 1</div>
-        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">地点 2</div>
-        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">地点 3</div>
-        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">地点 4</div>
-        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">地点 5</div>
+        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">宏村</div>
+        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">厦门</div>
+        <div class="location text-3xl text-yellow-500 font-semibold py-4 px-8 border-4 border-yellow-500 rounded-md">西安</div>
       </div>
 
       <!-- 抽奖按钮 -->
@@ -37,11 +35,11 @@
       </button>
 
       <!-- 最终结果 -->
-      <div id="result" class="text-3xl text-green-300 font-bold mt-12 hidden">恭喜！你抽中了：<span id="chosenLocation"></span></div>
+      <div id="result" class="text-3xl text-green-300 font-bold mt-12 hidden">我们要去这个地方：<span id="chosenLocation"></span></div>
     </div>
 
     <script>
-      const locations = ['地点 1', '地点 2', '地点 3', '地点 4', '地点 5']
+      const locations = ['宏村', '厦门', '西安']
       const locationElements = document.querySelectorAll('.location')
       const startBtn = document.getElementById('startBtn')
       const result = document.getElementById('result')
